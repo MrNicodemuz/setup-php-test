@@ -1,0 +1,37 @@
+name: CI
+
+on: [push]
+
+jobs:
+
+  imagicktest:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: true
+      max-parallel: 1
+      matrix:
+        php-versions: ['7.3']
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Install Image Magick
+        run: sudo apt-get install imagemagick
+
+      - name: Setup PHP, with composer and extensions
+        uses: shivammathur/setup-php@master
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extension-csv: mbstring, xml, ctype, iconv, mysql, imagick
+
+      - name: Check PHP Version
+        run: php -v
+
+      - name: Check PHP Extensions
+        run: php -m
+
+      - name: Check Composer Version
+        run: composer -V
