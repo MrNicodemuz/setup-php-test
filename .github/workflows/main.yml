@@ -35,3 +35,6 @@ jobs:
 
       - name: Check Composer Version
         run: composer -V
+
+      - name: Verify Image Magick installation
+        run: php -r "if (extension_loaded('imagick') && class_exists('Imagick')) { echo 'OK'; exit(0); } else { exit(1); }"
